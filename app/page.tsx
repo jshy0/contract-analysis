@@ -1,5 +1,11 @@
+import LegalAnalysis from "@/components/LegalAnalysis";
+
 const page = () => {
-  return <div>page</div>;
+  return (
+    <>
+      <LegalAnalysis />
+    </>
+  );
 };
 
 export default page;
