@@ -64,7 +64,7 @@ const LegalAnalysis = () => {
     >
       <div className="max-w-4xl w-full">
         <h1 className="text-2xl font-semibold uppercase text-center mb-6">
-          AI Contract Analyis
+          AI Contract Analysis
         </h1>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -101,7 +101,7 @@ const LegalAnalysis = () => {
                   Analysing...
                 </>
               ) : (
-                "Analyze Contract"
+                "Analyse Contract"
               )}
             </Button>
 
@@ -109,7 +109,7 @@ const LegalAnalysis = () => {
           </div>
 
           <div className="bg-white rounded-lg shadow p-6 border border-slate-200">
-            <h2 className="text-lg font-medium mb-4">Result:</h2>
+            <h2 className="text-md font-medium mb-4">Result:</h2>
 
             {isLoading ? (
               <div className="flex items-center justify-center h-40">
