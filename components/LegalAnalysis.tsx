@@ -5,6 +5,8 @@ import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
 import { Inter } from "next/font/google";
+import { Loader2 } from "lucide-react";
+import ReactMarkdown from "react-markdown";
 
 const inter = Inter({
   weight: ["400", "500", "600", "700"],
@@ -58,45 +60,75 @@ const LegalAnalysis = () => {
 
   return (
     <div
-      className={`flex flex-col items-center justify-center h-screen ${inter.className} gap-2 text-slate-900`}
+      className={`flex flex-col items-center justify-center min-h-screen ${inter.className} p-4`}
     >
-      <h1 className="text-xl font-semibold uppercase text-center ">
-        Contract analysis
-      </h1>
-      <div className="flex flex-col gap-6 p-6 w-1/4 border-2 bg-slate-100 rounded-lg shadow-sm shadow-slate-100">
-        <div>
-          <Label className="text-md">Contract text:</Label>
-          <Textarea
-            className="bg-white min-h-40"
-            value={contractText}
-            onChange={(e) => setContractText(e.target.value)}
-            placeholder="Paste the contract text here..."
-          />
-        </div>
-        <div>
-          <div className="flex justify-between items-center">
-            <Label className="text-md">Additional information:</Label>
-            <Label className="text-xs font-light text-slate-400">
-              (optional)
-            </Label>
+      <div className="max-w-4xl w-full">
+        <h1 className="text-2xl font-semibold uppercase text-center mb-6">
+          AI Contract Analyis
+        </h1>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="flex flex-col gap-6 p-6 bg-slate-100 rounded-lg shadow-sm">
+            <div>
+              <Label className="text-md mb-2 block">Paste document text:</Label>
+              <Textarea
+                className="bg-white min-h-40"
+                value={contractText}
+                onChange={(e) => setContractText(e.target.value)}
+              />
+            </div>
+
+            <div>
+              <Label className="text-md mb-2 block">
+                Additional information:
+              </Label>
+              <Textarea
+                className="bg-white"
+                placeholder="Provide context or specific questions about the contract"
+                value={additionalInfo}
+                onChange={(e) => setAdditionalInfo(e.target.value)}
+              />
+            </div>
+
+            <Button
+              className={`w-full ${inter.className}`}
+              onClick={handleSubmit}
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Analysing...
+                </>
+              ) : (
+                "Analyze Contract"
+              )}
+            </Button>
+
+            {error && <div className="text-red-500 text-sm mt-2">{error}</div>}
           </div>
 
-          <Textarea
-            className="bg-white"
-            value={additionalInfo}
-            onChange={(e) => setAdditionalInfo(e.target.value)}
-            placeholder="Any additional information you would like to provide..."
-          />
+          <div className="bg-white rounded-lg shadow p-6 border border-slate-200">
+            <h2 className="text-lg font-medium mb-4">Result:</h2>
+
+            {isLoading ? (
+              <div className="flex items-center justify-center h-40">
+                <Loader2 className="h-8 w-8 animate-spin text-slate-400" />
+              </div>
+            ) : analysis ? (
+              <div className="prose max-w-none">
+                <div className="whitespace-pre-wrap">
+                  <ReactMarkdown>{analysis}</ReactMarkdown>
+                </div>
+              </div>
+            ) : (
+              <div className="text-slate-500 text-center p-8">
+                Submit your contract to see the analysis here
+              </div>
+            )}
+          </div>
         </div>
-        <Button
-          className={`${inter.className}`}
-          disabled={isLoading}
-          onClick={handleSubmit}
-        >
-          {isLoading ? "Analysing..." : "Submit"}
-        </Button>
       </div>
-      {error && <div className="text-red-500 text-sm ">{error}</div>}
     </div>
   );
 };
